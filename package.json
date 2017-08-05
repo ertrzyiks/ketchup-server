@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node src/index.js",
+    "pretest": "env NODE_ENV=${NODE_ENV:-test} knex migrate:latest",
+    "test": "env NODE_ENV=${NODE_ENV:-test} ava **/*.spec.js --serial",
+    "test:watch": "npm test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,25 @@
   },
   "homepage": "https://github.com/ertrzyiks/ketchup-server#readme",
   "dependencies": {
+    "bookshelf": "^0.10.4",
+    "knex": "^0.13.0",
     "logux-core": "github:logux/logux-core",
-    "logux-server": "github:logux/logux-server"
+    "logux-server": "github:logux/logux-server",
+    "object-path": "^0.11.4"
+  },
+  "devDependencies": {
+    "ava": "^0.21.0",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "knex-cleaner": "^1.1.3",
+    "sinon": "^3.0.0",
+    "sqlite3": "^3.1.8"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }
