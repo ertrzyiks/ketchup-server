@@ -1,16 +1,15 @@
-export default (app, data = {}) => {
+export default async (app, data = {}) => {
   const User = app.models.User
   const Token = app.models.Token
   const {name} = data
 
-  const createUser = User.forge({name: name}).save()
+  const user = await User.forge({name}).save()
 
-  return createUser
-    .then(user => {
-      const accessToken = Token.forgeAccessTokenFor(user.get('id')).save()
-      const refreshToken = Token.forgeRefreshTokenFor(user.get('id')).save()
+  const accessToken = await Token.forgeAccessTokenFor(user.get('id'))
+  await accessToken.save()
 
-      return Promise.all([user, accessToken, refreshToken])
-    })
-    .then(values => values[0])
+  const refreshToken = await Token.forgeRefreshTokenFor(user.get('id'))
+  await refreshToken.save()
+
+  return user
 }

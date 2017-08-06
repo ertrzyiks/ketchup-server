@@ -4,8 +4,9 @@ export default async (app, data = {}) => {
   const {name, token} = data
 
   const user = await User.where({name}).fetch()
-  return Token
-    .where({user_id: user.get('id'), type: 'access'})
+  const foundToken = await Token
+    .where({user_id: user.get('id'), value: token, type: 'access'})
     .fetch()
-    .then(token => !!token)
+
+  return foundToken != null
 }
