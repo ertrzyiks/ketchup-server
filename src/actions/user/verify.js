@@ -1,6 +1,5 @@
 export default async (app, data = {}) => {
-  const User = app.models.User
-  const Token = app.models.Token
+  const {User, Token} = app.models
   const {name, token} = data
 
   const user = await User.where({name}).fetch()
