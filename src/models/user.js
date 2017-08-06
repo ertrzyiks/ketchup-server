@@ -1,5 +1,6 @@
 import {bookshelf} from '../db'
-import {Room} from './room'
+import Room from './room'
+import Token from './token'
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
