@@ -1,4 +1,4 @@
-export default async (app, data = {}) => {
+export default async (app, performer, data = {}) => {
   const {User, Token} = app.models
   const {name} = data
 

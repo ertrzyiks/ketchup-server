@@ -12,6 +12,11 @@ export default ({models, actions}) => {
       _cache[actionName] = objectPath.get(actions, actionName)
     }
 
+    if (!data) {
+      data = performer
+      performer = null
+    }
+
     const actionFn = _cache[actionName]
     return actionFn(app, performer, data)
   }
