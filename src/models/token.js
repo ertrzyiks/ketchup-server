@@ -1,5 +1,6 @@
-import {bookshelf} from '../db'
 import crypto from 'crypto'
+import User from './user'
+import {bookshelf} from '../db'
 
 const generateToken = (size = 48) => {
   return new Promise((resolve, reject) => {
@@ -14,7 +15,11 @@ const generateToken = (size = 48) => {
 
 const Token = bookshelf.Model.extend({
   tableName: 'tokens',
-  hasTimestamps: true
+  hasTimestamps: true,
+
+  user: function() {
+    return this.belongsTo(User)
+  }
 }, {
   forgeAccessTokenFor: async (user_id) => {
     return generateToken().then((value) => Token.forge({

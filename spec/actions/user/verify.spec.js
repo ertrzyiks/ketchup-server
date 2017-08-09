@@ -42,3 +42,8 @@ test('verify a user using another wrong token', async t => {
   const res = await app.perform('user.verify', {name: 'MyUser', token: 'XXX'})
   t.false(res)
 })
+
+test('verify a user using wrong name', async t => {
+  const res = await app.perform('user.verify', {name: 'MyUser', token: 'XXX'})
+  t.false(res)
+})
