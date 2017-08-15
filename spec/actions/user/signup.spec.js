@@ -21,3 +21,11 @@ test('create tokens', async t => {
   t.truthy(accessToken)
   t.truthy(refreshToken)
 })
+
+test('create a user with duplicated name', async t => {
+  await app.perform('user.signup', {name: 'MyUser'})
+  const action = app.perform('user.signup', {name: 'MyUser'})
+
+  const error = await t.throws(action, Error);
+  t.is(error.message, 'Username is already taken')
+})
