@@ -1,3 +1,5 @@
+import ValidationError from '../../errors/validation_error'
+
 export default async (app, performer, data = {}) => {
   const {User, Token} = app.models
   const {name} = data
@@ -14,8 +16,10 @@ export default async (app, performer, data = {}) => {
     return {user, accessToken, refreshToken}
   } catch (ex) {
     if (ex.message.match(/unique/i)) {
-      throw new Error('Username is already taken')
+      throw new ValidationError('Username is already taken')
     }
+
+    // TODO: report `ex` somehow
 
     throw new Error('Could not register a user')
   }

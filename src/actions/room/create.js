@@ -1,9 +1,11 @@
-export default (app, performer, data = {}) => {
+import ValidationError from '../../errors/validation_error'
+
+export default async (app, performer, data = {}) => {
   const Room = app.models.Room
   const {roomName} = data
 
   if (!roomName) {
-    return Promise.reject(new Error('Room name can not be empty'))
+    throw new ValidationError('Room name can not be empty')
   }
 
   return Room.forge({
