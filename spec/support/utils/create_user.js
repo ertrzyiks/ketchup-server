@@ -13,6 +13,8 @@ export async function createUser(app, userData) {
   if (refreshToken) {
     await overwriteRefreshToken(Token, userId, refreshToken)
   }
+
+  return user
 }
 
 async function overwriteAccessToken(Token, userId, value) {

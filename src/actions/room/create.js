@@ -8,8 +8,16 @@ export default async (app, performer, data = {}) => {
     throw new ValidationError('Room name can not be empty')
   }
 
-  return Room.forge({
+  const room = Room.forge({
     name: data.roomName,
-    owner_id: performer.id
-  }).save()
+    owner_id: performer.id,
+    users: JSON.stringify([performer.id])
+  })
+
+  await room.save()
+
+  const rooms = performer.get('rooms') || '[]'
+  await performer.save('rooms', JSON.stringify(JSON.parse(rooms).concat([room.id])))
+
+  return room
 }

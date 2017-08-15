@@ -40,6 +40,7 @@ exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('users_rooms'),
     knex.schema.dropTable('users'),
+    knex.schema.dropTable('tokens'),
     knex.schema.dropTable('rooms')
   ])
 };
