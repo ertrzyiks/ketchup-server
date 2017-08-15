@@ -22,3 +22,11 @@ test('retrieve new tokens', async t => {
   t.truthy(accessToken)
   t.truthy(refreshToken)
 })
+
+test('rejects incorrect token', async t => {
+  await createUser(app, {name: 'MyUser', accessToken: 'token', refreshToken: '123'})
+
+  const result = await app.perform('user.signin', {name: 'MyUser', refreshToken: 'XXX'})
+
+  t.falsy(result)
+})
