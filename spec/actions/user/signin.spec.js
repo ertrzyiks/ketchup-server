@@ -1,5 +1,5 @@
 import test from 'ava'
-import app from '../../specapp'
+import app from '../../support/specapp'
 import {createUser, createSandbox, prepareDbFor} from '../../support'
 
 const sandbox = createSandbox({useFakeTimers: true})

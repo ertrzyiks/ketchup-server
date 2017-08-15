@@ -1,5 +1,5 @@
 import test from 'ava'
-import app from '../../specapp'
+import app from '../../support/specapp'
 import {createSandbox, prepareDbFor} from '../../support'
 
 createSandbox({useFakeTimers: true})

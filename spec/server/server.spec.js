@@ -1,6 +1,6 @@
 import test from 'ava'
-import SpecServer from '../specserver'
-import app from '../specapp'
+import SpecServer from '../support/specserver'
+import app from '../support/specapp'
 import {createUser, prepareDbFor, LoguxTestUtils} from '../support'
 
 prepareDbFor(app)
