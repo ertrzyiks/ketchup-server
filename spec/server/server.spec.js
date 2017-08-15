@@ -30,7 +30,7 @@ test(async t => {
   const client = LoguxTestUtils.createClient(reporter.app)
   await client.connection.connect()
 
-  await createUser(app, {username: '10', access_token: 'token'})
+  await createUser(app, {name: '10', accessToken: 'token'})
 
   await LoguxTestUtils.connect(client, '10:uuid', 'token')
 

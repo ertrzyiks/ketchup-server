@@ -1,14 +1,26 @@
 export async function createUser(app, userData) {
   const {Token} = app.models
-  const {username, access_token, refresh_token} = userData
+  const {name, accessToken, refreshToken} = userData
 
-  const user = await app.perform('user.signup', {name: username})
+  const result = await app.perform('user.signup', {name})
+  const {user} = result
+  const userId = user.get('id')
 
-  const accessToken = await Token.where({user_id: user.get('id'), type: 'access'}).fetch()
-  await accessToken.set('value', access_token).save()
-
-  if (refresh_token) {
-    const refreshToken = await Token.where({user_id: user.get('id'), type: 'refresh'}).fetch()
-    await refreshToken.set('value', refresh_token).save()
+  if (accessToken) {
+    await overwriteAccessToken(Token, userId, accessToken)
   }
+
+  if (refreshToken) {
+    await overwriteRefreshToken(Token, userId, refreshToken)
+  }
+}
+
+async function overwriteAccessToken(Token, userId, value) {
+  const accessToken = await Token.where({user_id: userId, type: 'access'}).fetch()
+  await accessToken.set('value', value).save()
+}
+
+async function overwriteRefreshToken(Token, userId, value) {
+  const refreshToken = await Token.where({user_id: userId, type: 'refresh'}).fetch()
+  await refreshToken.set('value', value).save()
 }

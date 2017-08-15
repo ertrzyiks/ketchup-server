@@ -10,5 +10,5 @@ export default async (app, performer, data = {}) => {
   const refreshToken = await Token.forgeRefreshTokenFor(user.get('id'))
   await refreshToken.save()
 
-  return user
+  return {user, accessToken, refreshToken}
 }

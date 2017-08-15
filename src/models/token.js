@@ -34,7 +34,7 @@ const Token = bookshelf.Model.extend({
     return generateToken().then((value) => Token.forge({
       user_id: user_id,
       type: 'refresh',
-      value: '123',
+      value,
       expire_at: new Date()
     }))
   }

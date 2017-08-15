@@ -1,6 +1,6 @@
 export default async (app, performer, data = {}) => {
   const {User, Token} = app.models
-  const {name, token} = data
+  const {name, accessToken} = data
 
   // TODO: make a single query here
   const user = await User.where({name}).fetch()
@@ -8,7 +8,7 @@ export default async (app, performer, data = {}) => {
 
   const foundToken = await Token
     .where('user_id', userId)
-    .where('value', token)
+    .where('value', accessToken)
     .where('type', 'access')
     .fetch()
 
