@@ -1,16 +1,9 @@
 import test from 'ava'
-import sinon from 'sinon'
 import app from '../../specapp'
+import {createSandbox, prepareDbFor} from '../../support'
 
-const sandbox = sinon.sandbox.create({useFakeTimers: true})
-
-test.before(async () => {
-  await app.db.knex.migrate.latest()
-})
-
-test.afterEach(() => {
-  sandbox.restore()
-})
+createSandbox({useFakeTimers: true})
+prepareDbFor(app)
 
 test('create a room', async t => {
   const performer = app.models.User.forge({id: 1})

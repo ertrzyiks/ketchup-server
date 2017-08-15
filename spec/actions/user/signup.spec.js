@@ -1,21 +1,9 @@
 import test from 'ava'
-import sinon from 'sinon'
-import knexCleaner from 'knex-cleaner'
 import app from '../../specapp'
+import {createSandbox, prepareDbFor} from '../../support'
 
-const sandbox = sinon.sandbox.create({useFakeTimers: true})
-
-test.before(async () => {
-  await app.db.knex.migrate.latest()
-})
-
-test.beforeEach(async () => {
-  await knexCleaner.clean(app.db.knex)
-})
-
-test.afterEach(() => {
-  sandbox.restore()
-})
+createSandbox({useFakeTimers: true})
+prepareDbFor(app)
 
 test('create a user', async t => {
   const user = await app.perform('user.signup', {name: 'MyUser'})
