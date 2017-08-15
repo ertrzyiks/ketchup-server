@@ -16,6 +16,12 @@ export default async (app, performer, data = {}) => {
     return null
   }
 
+  const expireAt = foundToken.get('expire_at')
+
+  if (expireAt < Date.now()) {
+    return null
+  }
+
   const newAccessToken = await Token.forgeAccessTokenFor(user.get('id'))
   await newAccessToken.save()
 

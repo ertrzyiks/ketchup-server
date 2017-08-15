@@ -21,12 +21,15 @@ const Token = bookshelf.Model.extend({
     return this.belongsTo(User)
   }
 }, {
+  accessTokenLifeTime: 15 * 60 * 1000,
+  refreshTokenLifeTime: 60 * 24 * 60 * 60 * 1000,
+
   forgeAccessTokenFor: async (user_id) => {
     return generateToken().then((value) => Token.forge({
       user_id: user_id,
       type: 'access',
       value,
-      expire_at: new Date()
+      expire_at: Date.now() + Token.accessTokenLifeTime
     }))
   },
 
@@ -35,7 +38,7 @@ const Token = bookshelf.Model.extend({
       user_id: user_id,
       type: 'refresh',
       value,
-      expire_at: new Date()
+      expire_at: Date.now() + Token.refreshTokenLifeTime
     }))
   }
 })

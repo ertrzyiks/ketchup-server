@@ -12,5 +12,10 @@ export default async (app, performer, data = {}) => {
     .where('type', 'access')
     .fetch()
 
-  return foundToken != null
+  if (foundToken === null) {
+      return false
+  }
+
+  const expireAt = foundToken.get('expire_at')
+  return expireAt >= Date.now()
 }
