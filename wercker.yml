@@ -1,8 +1,16 @@
 box: node
+services:
+   - id: postgres
+
 build:
   steps:
     - npm-install
     - npm-test
+
+    - script:
+        name: Run tests with postgres
+        code: |
+          env WITH_POSTGRES=true DATABASE_URL=postgres://postgres@postgres/postgres npm test
 
     - script:
         name: echo nodejs information
