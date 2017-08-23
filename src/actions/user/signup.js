@@ -20,6 +20,7 @@ export default async (app, performer, data = {}) => {
     }
 
     // TODO: report `ex` somehow
+    console.error(ex)
 
     throw new Error('Could not register a user')
   }

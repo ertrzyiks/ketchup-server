@@ -25,7 +25,8 @@
     "logux-core": "github:logux/logux-core",
     "logux-server": "github:logux/logux-server",
     "logux-sync": "github:logux/logux-sync",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "pg": "^7.1.2"
   },
   "devDependencies": {
     "ava": "^0.21.0",

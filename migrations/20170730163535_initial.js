@@ -1,26 +1,28 @@
 
 exports.up = function(knex, Promise) {
   const createUsers = knex.schema.createTable('users', function (table) {
-    table.increments()
+    table.increments('id').primary()
     table.string('name').notNullable()
     table.timestamps(true, true)
     table.unique('name')
   })
 
   const createRooms = knex.schema.createTable('rooms', function (table) {
-    table.increments()
+    table.increments('id').primary()
     table.string('name').notNullable()
     table.integer('owner_id').references('users.id').notNullable()
     table.timestamps(true, true)
   })
 
   const createUsersRooms = knex.schema.createTable('users_rooms', function(table) {
+    table.increments('id').primary()
     table.integer('user_id').references('users.id')
-    table.integer('room_id').references('room.id')
+    table.integer('room_id').references('rooms.id')
     table.timestamps(true, true)
   });
 
   const createTokens = knex.schema.createTable('tokens', function(table) {
+    table.increments('id').primary()
     table.integer('user_id').references('users.id').notNullable()
     table.string('value').notNullable()
     table.string('type').notNullable()

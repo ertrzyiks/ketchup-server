@@ -8,7 +8,7 @@ const generateToken = (size = 48) => {
       if (err) {
         return reject(err)
       }
-      return resolve(buffer)
+      return resolve(buffer.toString('hex'))
     })
   })
 }
@@ -29,7 +29,7 @@ const Token = bookshelf.Model.extend({
       user_id: user_id,
       type: 'access',
       value,
-      expire_at: Date.now() + Token.accessTokenLifeTime
+      expire_at: new Date(Date.now() + Token.accessTokenLifeTime)
     }))
   },
 
@@ -38,7 +38,7 @@ const Token = bookshelf.Model.extend({
       user_id: user_id,
       type: 'refresh',
       value,
-      expire_at: Date.now() + Token.refreshTokenLifeTime
+      expire_at: new Date(Date.now() + Token.refreshTokenLifeTime)
     }))
   }
 })
