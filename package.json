@@ -7,7 +7,8 @@
     "start": "babel-node src/index.js",
     "pretest": "env NODE_ENV=${NODE_ENV:-test} knex migrate:latest",
     "test": "env NODE_ENV=${NODE_ENV:-test} ava **/*.spec.js --serial",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "test:up": "npm test -- --update-snapshots"
   },
   "repository": {
     "type": "git",
@@ -20,13 +21,17 @@
   },
   "homepage": "https://github.com/ertrzyiks/ketchup-server#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "bookshelf": "^0.10.4",
+    "express": "^4.15.4",
     "knex": "^0.13.0",
     "logux-core": "github:logux/logux-core",
     "logux-server": "github:logux/logux-server",
     "logux-sync": "github:logux/logux-sync",
     "object-path": "^0.11.4",
-    "pg": "^7.1.2"
+    "pg": "^7.1.2",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.4"
   },
   "devDependencies": {
     "ava": "^0.21.0",

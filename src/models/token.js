@@ -19,6 +19,10 @@ const Token = bookshelf.Model.extend({
 
   user: function() {
     return this.belongsTo(User)
+  },
+
+  getExpiresIn: function () {
+    return 10
   }
 }, {
   accessTokenLifeTime: 15 * 60 * 1000,

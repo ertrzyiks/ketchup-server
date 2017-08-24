@@ -1,17 +1,11 @@
 import {Server} from 'logux-server'
-import actions from './actions'
-import models from './models'
-import app from './app'
+
 
 export default class KetchupServer extends Server {
-  constructor (...args) {
+  constructor (ketchapp, ...args) {
     super(...args)
 
-    this.ketchapp = app({
-      models,
-      actions
-    })
-
+    this.ketchapp = ketchapp
     this._setupAuth()
     this._setupTypes()
   }

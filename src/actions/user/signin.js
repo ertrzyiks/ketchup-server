@@ -1,3 +1,5 @@
+import AuthenticationError from '../../errors/authentication_error'
+
 export default async (app, performer, data = {}) => {
   const {User, Token} = app.models
   const {name, refreshToken} = data
@@ -13,13 +15,13 @@ export default async (app, performer, data = {}) => {
     .fetch()
 
   if (foundToken === null) {
-    return null
+    throw new AuthenticationError('Incorrect credentials')
   }
 
   const expireAt = foundToken.get('expire_at')
 
   if (expireAt < Date.now()) {
-    return null
+    throw new AuthenticationError('Incorrect credentials')
   }
 
   const newAccessToken = await Token.forgeAccessTokenFor(user.get('id'))

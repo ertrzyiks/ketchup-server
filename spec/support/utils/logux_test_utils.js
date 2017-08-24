@@ -11,13 +11,13 @@ export function createConnection () {
   return pair.left
 }
 
-export function createServer (ServerClass, opts, reporter) {
+export function createServer (serverFactory, opts, reporter) {
   if (!opts) opts = { }
   opts.subprotocol = '0.0.1'
   opts.supports = '0.x'
   opts.reporter = reporter
 
-  const server = new ServerClass(opts)
+  const server = serverFactory(opts)
   server.log.on('preadd', (action, meta) => {
     meta.reasons.push('test')
   })
@@ -32,10 +32,10 @@ export function createClient (app) {
   return client
 }
 
-export function createReporter (ServerClass, opts) {
+export function createReporter (serverFactory, opts) {
   const names = []
   const reports = []
-  const app = createServer(ServerClass, opts, (name, details) => {
+  const app = createServer(serverFactory, opts, (name, details) => {
     names.push(name)
     reports.push([name, details])
   })

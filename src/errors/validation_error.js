@@ -1,1 +1,3 @@
-export default class ValidationError extends Error {}
+import AppError from './app_error'
+
+export default class ValidationError extends AppError {}
