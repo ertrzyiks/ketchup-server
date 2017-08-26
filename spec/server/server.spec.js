@@ -3,6 +3,8 @@ import SpecServer from '../support/specserver'
 import app from '../support/specapp'
 import {createUser, prepareDbFor, LoguxTestUtils} from '../support'
 
+const serverFactory = opts => new SpecServer(app, opts)
+
 prepareDbFor(app)
 
 let server
@@ -12,7 +14,7 @@ test.afterEach(async () => {
 })
 
 test(async t => {
-  const reporter = LoguxTestUtils.createReporter(SpecServer)
+  const reporter = LoguxTestUtils.createReporter(serverFactory)
   server = reporter.app
 
   const client = LoguxTestUtils.createClient(reporter.app)
@@ -24,7 +26,7 @@ test(async t => {
 })
 
 test(async t => {
-  const reporter = LoguxTestUtils.createReporter(SpecServer)
+  const reporter = LoguxTestUtils.createReporter(serverFactory)
   server = reporter.app
 
   const client = LoguxTestUtils.createClient(reporter.app)
