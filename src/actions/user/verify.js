@@ -13,7 +13,7 @@ export default async (app, performer, data = {}) => {
     .fetch()
 
   if (foundToken === null) {
-      return false
+    return false
   }
 
   const expireAt = foundToken.get('expire_at')

@@ -1,5 +1,4 @@
 import express from 'express'
-import AuthenticationError from '../../errors/authentication_error'
 import handleApiError from '../handle_error'
 
 export default (ketchapp) => {

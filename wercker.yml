@@ -5,6 +5,12 @@ services:
 build:
   steps:
     - npm-install
+
+    - script:
+        name: Run tests with postgres
+        code: |
+         npm run lint
+
     - npm-test
 
     - script:

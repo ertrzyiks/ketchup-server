@@ -12,7 +12,8 @@
     "pretest": "env NODE_ENV=${NODE_ENV:-test} knex migrate:latest",
     "test": "env NODE_ENV=${NODE_ENV:-test} ava **/*.spec.js --serial",
     "test:watch": "npm test -- --watch",
-    "test:up": "npm test -- --update-snapshots"
+    "test:up": "npm test -- --update-snapshots",
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "ava": "^0.21.0",
+    "eslint": "^4.5.0",
     "knex-cleaner": "^1.1.3",
     "sinon": "^3.0.0",
     "sqlite3": "^3.1.8"
