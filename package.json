@@ -31,6 +31,7 @@
     "babel-preset-es2017": "^6.24.1",
     "body-parser": "^1.17.2",
     "bookshelf": "^0.10.4",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
     "knex": "^0.13.0",
     "logux-core": "github:logux/logux-core",
