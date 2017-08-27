@@ -8,7 +8,7 @@
     "build:server": "babel ./src --out-dir ./build --source-maps",
     "build": "npm run clean && npm run build:server",
     "start": "babel-node src/index.js",
-    "start:prod": "node build/index.js",
+    "start:prod": "knex migrate:latest && node build/index.js",
     "pretest": "env NODE_ENV=${NODE_ENV:-test} knex migrate:latest",
     "test": "env NODE_ENV=${NODE_ENV:-test} ava **/*.spec.js --serial",
     "test:watch": "npm test -- --watch",
