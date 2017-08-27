@@ -7,7 +7,7 @@ import getHttpServer from './http_server'
 const ketchapp = getKetchApp({actions, models})
 const httpServer = getHttpServer(ketchapp)
 
-const listener = httpServer.listen(process.env.PORT || 3000, function () {
+const listener = httpServer.listen(process.env.PORT || 3001, function () {
   const app = new KetchupServer(ketchapp, KetchupServer.loadOptions(process, {
     server: listener,
     subprotocol: '1.0.0',
