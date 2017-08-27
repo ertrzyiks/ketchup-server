@@ -38,6 +38,13 @@ const doRequest = (method, relativeURL, body = {}) => {
   })
 }
 
+test('health check', async t => {
+  const {body, statusCode} = await doRequest('GET', '/status')
+
+  t.is(statusCode, 200)
+  t.snapshot(body)
+})
+
 test('register a user', async t => {
   const {body, statusCode} = await doRequest('POST', '/v1/users')
 
