@@ -3,8 +3,13 @@ exports.up = function(knex, Promise) {
   const createUsers = knex.schema.createTable('users', function (table) {
     table.increments('id').primary()
     table.string('name').notNullable()
+    if (knex.client.config.client === 'pg')  {
+      table.uuid('hash').notNull().defaultTo(knex.raw('uuid_generate_v4()'))
+    } else {
+      table.uuid('hash').notNull().defaultTo(knex.raw('(hex(randomblob(16)))'))
+    }
     table.timestamps(true, true)
-    table.unique('name')
+    table.unique('hash')
   })
 
   const createRooms = knex.schema.createTable('rooms', function (table) {
@@ -41,8 +46,8 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('users_rooms'),
-    knex.schema.dropTable('users'),
     knex.schema.dropTable('tokens'),
-    knex.schema.dropTable('rooms')
+    knex.schema.dropTable('rooms'),
+    knex.schema.dropTable('users')
   ])
 };
