@@ -20,7 +20,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   const createUsersRooms = knex.schema.createTable('users_rooms', function(table) {
     table.integer('user_id').references('users.id')
-    table.integer('room_id').references('room.id')
+    table.integer('room_id').references('rooms.id')
     table.timestamps(true, true)
   });
 
