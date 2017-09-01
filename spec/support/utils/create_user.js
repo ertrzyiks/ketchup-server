@@ -1,10 +1,10 @@
 export async function createUser(app, userData) {
   const {Token} = app.models
-  const {name, accessToken, refreshToken} = userData
+  const {name, accessToken, refreshToken} = Object.assign({name: 'MyUser'}, userData)
 
   const result = await app.perform('user.signup', {name})
   const {user} = result
-  const userId = user.get('id')
+  const userId = user.id
 
   if (accessToken) {
     await overwriteAccessToken(Token, userId, accessToken)

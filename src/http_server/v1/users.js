@@ -11,12 +11,17 @@ export default (ketchapp) => {
       })
       .then(({user, accessToken, refreshToken}) =>{
         res.send({
-          user: user.toJSON(),
+          user: {
+            name: user.name,
+            updated_at: user.updated_at,
+            created_at: user.created_at,
+            id: user.hash
+          },
           token: {
             token_type: 'bearer',
-            access_token: accessToken.get('value'),
-            expires_in: accessToken.getExpiresIn(),
-            refresh_token: refreshToken.get('value')
+            access_token: accessToken.value,
+            expires_in: accessToken.expires_in,
+            refresh_token: refreshToken.value
           }
         })
       })
