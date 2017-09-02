@@ -15,8 +15,8 @@ export default class KetchupServer extends Server {
   }
 
   _setupAuth() {
-    this.auth((name, accessToken) => {
-      return this.perform('user.verify', {name, accessToken})
+    this.auth((id, accessToken) => {
+      return this.perform('user.verify', {hash: id, accessToken})
     })
   }
 
