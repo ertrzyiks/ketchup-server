@@ -1,6 +1,8 @@
 import {bookshelf} from '../db'
 
 const AppModel = bookshelf.Model.extend({
+  jsonFields: [],
+
   serialize: function (options) {
     let result = bookshelf.Model.prototype.serialize.call(this, options)
 
@@ -13,6 +15,32 @@ const AppModel = bookshelf.Model.extend({
     }
 
     return result
+  },
+
+  parse: function (attrs) {
+    let res = Object.assign({}, bookshelf.Model.prototype.parse.call(this, attrs))
+
+    this.jsonFields.forEach(field => {
+      if (typeof res[field] == 'string') {
+        res[field] = JSON.parse(res[field])
+      }
+    })
+    return res
+  },
+
+
+  format: function (attrs) {
+    let res = Object.assign({}, bookshelf.Model.prototype.format.call(this, attrs))
+
+    this.jsonFields.forEach(field => {
+      if (!res[field] || typeof res[field] == 'string') {
+        return
+      }
+
+      res[field] = JSON.stringify(res[field])
+    })
+
+    return res
   }
 })
 
