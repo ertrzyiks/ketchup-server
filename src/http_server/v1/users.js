@@ -1,14 +1,15 @@
 import express from 'express'
+import {generateUsername} from 'username-generator'
 import handleApiError from '../handle_error'
 
 export default (ketchapp) => {
   const users = express()
 
   users.post('/', (req, res) => {
+    const name = generateUsername('-')
+
     ketchapp
-      .perform('user.signup', {
-        name: 'user' + Math.floor(Math.random() * 10000)
-      })
+      .perform('user.signup', {name})
       .then(({user, accessToken, refreshToken}) =>{
         res.send({
           user: {
