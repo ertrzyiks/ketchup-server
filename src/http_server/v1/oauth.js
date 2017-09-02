@@ -7,15 +7,15 @@ export default (ketchapp) => {
   oauth.post('/token', (req, res) => {
     ketchapp
       .perform('user.signin', {
-        name: req.body.name,
+        hash: req.body.id,
         refreshToken: req.body.refresh_token,
       })
       .then(({accessToken, refreshToken}) => {
         res.send({
           token_type: 'bearer',
-          access_token: accessToken.get('value'),
-          expires_in: accessToken.getExpiresIn(),
-          refresh_token: refreshToken.get('value')
+          access_token: accessToken.value,
+          expires_in: accessToken.expires_in,
+          refresh_token: refreshToken.value
         })
       })
       .catch(err => handleApiError(err, req, res))

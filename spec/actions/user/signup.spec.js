@@ -2,16 +2,17 @@ import test from 'ava'
 import app from '../../support/specapp'
 import {createSandbox, prepareDbFor} from '../../support'
 
-createSandbox({useFakeTimers: true})
+const sandbox = createSandbox({useFakeTimers: true})
 prepareDbFor(app)
 
 test('create a user', async t => {
+  sandbox.clock.tick(1000)
   const result = await app.perform('user.signup', {name: 'MyUser'})
   const {user} = result
 
-  t.is(user.get('name'), 'MyUser')
-  t.is(user.get('created_at').getTime(), new Date().getTime())
-  t.is(user.get('updated_at').getTime(), new Date().getTime())
+  t.is(user.name, 'MyUser')
+  t.is(user.created_at.getTime(), new Date().getTime())
+  t.is(user.updated_at.getTime(), new Date().getTime())
 })
 
 test('create tokens', async t => {

@@ -1,7 +1,7 @@
 import ValidationError from '../../errors/validation_error'
 
 export default async (app, performer, data = {}) => {
-  const Room = app.models.Room
+  const {User, Room} = app.models
   const {roomName} = data
 
   if (!roomName) {
@@ -16,8 +16,8 @@ export default async (app, performer, data = {}) => {
 
   await room.save()
 
-  const rooms = performer.get('rooms') || '[]'
-  await performer.save('rooms', JSON.stringify(JSON.parse(rooms).concat([room.id])))
+  const rooms = performer.rooms || '[]'
+  await User.forge({id: performer.id}).save('rooms', rooms.concat([room.id]))
 
-  return room
+  return room.toJSON()
 }

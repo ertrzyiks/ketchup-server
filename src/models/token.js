@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import User from './user'
-import {bookshelf} from '../db'
+import AppModel from './app_model'
 
 const generateToken = (size = 48) => {
   return new Promise((resolve, reject) => {
@@ -13,7 +13,7 @@ const generateToken = (size = 48) => {
   })
 }
 
-const Token = bookshelf.Model.extend({
+const Token = AppModel.extend({
   tableName: 'tokens',
   hasTimestamps: true,
 
@@ -21,8 +21,12 @@ const Token = bookshelf.Model.extend({
     return this.belongsTo(User)
   },
 
-  getExpiresIn: function () {
-    return 10
+  toJSON: function (...args) {
+    let res = AppModel.prototype.toJSON.call(this, ...args)
+
+    res.expires_in = 10
+
+    return res
   }
 }, {
   accessTokenLifeTime: 15 * 60 * 1000,

@@ -7,13 +7,19 @@ export default async (app, performer, data = {}) => {
   try {
     const user = await User.forge({name}).save()
 
-    const accessToken = await Token.forgeAccessTokenFor(user.get('id'))
+    const accessToken = await Token.forgeAccessTokenFor(user.id)
     await accessToken.save()
 
-    const refreshToken = await Token.forgeRefreshTokenFor(user.get('id'))
+    const refreshToken = await Token.forgeRefreshTokenFor(user.id)
     await refreshToken.save()
 
-    return {user, accessToken, refreshToken}
+    await user.fetch()
+
+    return {
+      user: user.toJSON(),
+      accessToken: accessToken.toJSON(),
+      refreshToken: refreshToken.toJSON()
+    }
   } catch (ex) {
     if (ex.message.match(/unique/i)) {
       throw new ValidationError('Username is already taken')

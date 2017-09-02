@@ -2,10 +2,10 @@ import AuthenticationError from '../../errors/authentication_error'
 
 export default async (app, performer, data = {}) => {
   const {User, Token} = app.models
-  const {name, refreshToken} = data
+  const {hash, refreshToken} = data
 
   // TODO: make a single query here
-  const user = await User.where({name}).fetch()
+  const user = await User.where({hash}).fetch()
   const userId = user ? user.get('id') : -1
 
   const foundToken = await Token
@@ -30,5 +30,9 @@ export default async (app, performer, data = {}) => {
   const newRefreshToken = await Token.forgeRefreshTokenFor(user.get('id'))
   await newRefreshToken.save()
 
-  return {user, accessToken: newAccessToken, refreshToken: newRefreshToken}
+  return {
+    user: user.toJSON(),
+    accessToken: newAccessToken.toJSON(),
+    refreshToken: newRefreshToken.toJSON()
+  }
 }
