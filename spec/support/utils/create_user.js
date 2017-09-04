@@ -1,5 +1,5 @@
 export async function createUser(app, userData) {
-  const {Token} = app.models
+  const {Token, User} = app.models
   const {name, accessToken, refreshToken} = Object.assign({name: 'MyUser'}, userData)
 
   const result = await app.perform('user.signup', {name})
@@ -7,7 +7,7 @@ export async function createUser(app, userData) {
   const userId = user.id
 
   if (accessToken) {
-    await overwriteAccessToken(Token, userId, accessToken)
+    await overwriteAccessToken(Token, User, userId, accessToken)
   }
 
   if (refreshToken) {
@@ -17,9 +17,11 @@ export async function createUser(app, userData) {
   return user
 }
 
-async function overwriteAccessToken(Token, userId, value) {
-  const accessToken = await Token.where({user_id: userId, type: 'access'}).fetch()
-  await accessToken.set('value', value).save()
+async function overwriteAccessToken(Token, User, userId, value) {
+  const user = await User.forge({id: userId}).fetch()
+  const accessToken = await Token.forgeAccessToken()
+  accessToken.set('value', value)
+  await user.save('tokens', [accessToken.toJSON()])
 }
 
 async function overwriteRefreshToken(Token, userId, value) {

@@ -24,8 +24,8 @@ export default async (app, performer, data = {}) => {
     throw new AuthenticationError('Incorrect credentials')
   }
 
-  const newAccessToken = await Token.forgeAccessTokenFor(user.id)
-  await newAccessToken.save()
+  const newAccessToken = await Token.forgeAccessToken()
+  await user.addToken(newAccessToken).save()
 
   const newRefreshToken = await Token.forgeRefreshTokenFor(user.id)
   await newRefreshToken.save()
