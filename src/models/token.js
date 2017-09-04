@@ -34,7 +34,6 @@ const Token = AppModel.extend({
 
   forgeAccessToken: async () => {
     return generateToken().then((value) => Token.forge({
-      type: 'access',
       value,
       expire_at: new Date(Date.now() + Token.accessTokenLifeTime)
     }))
@@ -43,7 +42,6 @@ const Token = AppModel.extend({
   forgeRefreshTokenFor: async (user_id) => {
     return generateToken().then((value) => Token.forge({
       user_id: user_id,
-      type: 'refresh',
       value,
       expire_at: new Date(Date.now() + Token.refreshTokenLifeTime)
     }))
