@@ -25,6 +25,6 @@ async function overwriteAccessToken(Token, User, userId, value) {
 }
 
 async function overwriteRefreshToken(Token, userId, value) {
-  const refreshToken = await Token.where({user_id: userId, type: 'refresh'}).fetch()
+  const refreshToken = await Token.where({user_id: userId}).fetch()
   await refreshToken.set('value', value).save()
 }

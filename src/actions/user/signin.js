@@ -11,7 +11,6 @@ export default async (app, performer, data = {}) => {
   const foundToken = await Token
     .where('user_id', userId)
     .where('value', refreshToken)
-    .where('type', 'refresh')
     .fetch()
 
   if (foundToken === null) {
