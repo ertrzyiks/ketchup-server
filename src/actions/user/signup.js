@@ -5,10 +5,12 @@ export default async (app, performer, data = {}) => {
   const {name} = data
 
   try {
-    const user = await User.forge({name}).save()
+    const accessToken = await Token.forgeAccessToken()
 
-    const accessToken = await Token.forgeAccessTokenFor(user.id)
-    await accessToken.save()
+    const user = await User.forge({
+      name,
+      tokens: [accessToken.toJSON()]
+    }).save()
 
     const refreshToken = await Token.forgeRefreshTokenFor(user.id)
     await refreshToken.save()

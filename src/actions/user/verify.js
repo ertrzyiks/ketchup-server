@@ -1,21 +1,20 @@
 export default async (app, performer, data = {}) => {
-  const {User, Token} = app.models
+  const {User} = app.models
   const {hash, accessToken} = data
 
   // TODO: make a single query here
   const user = await User.where({hash}).fetch()
-  const userId = user ? user.id : -1
 
-  const foundToken = await Token
-    .where('user_id', userId)
-    .where('value', accessToken)
-    .where('type', 'access')
-    .fetch()
-
-  if (foundToken === null) {
+  if (!user) {
     return false
   }
 
-  const expireAt = foundToken.get('expire_at')
+  const foundToken = user.get('tokens').find(token => token.value === accessToken)
+
+  if (!foundToken) {
+    return false
+  }
+
+  const expireAt = new Date(foundToken.expire_at).getTime()
   return expireAt >= Date.now()
 }
