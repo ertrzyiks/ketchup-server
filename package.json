@@ -34,6 +34,7 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "knex": "^0.13.0",
+    "lodash": "^4.17.4",
     "logux-core": "github:logux/logux-core",
     "logux-server": "github:logux/logux-server",
     "logux-sync": "github:logux/logux-sync",

@@ -7,6 +7,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return knex.schema.table('tokens', function(t) {
-    t.string('type').notNullable()
+    t.string('type').notNullable().defaultsTo('refresh')
   })
 };

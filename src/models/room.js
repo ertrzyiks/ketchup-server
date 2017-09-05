@@ -1,8 +1,13 @@
 import AppModel from './app_model'
+import User from './user'
 
 const Room = AppModel.extend({
   tableName: 'rooms',
-  hasTimestamps: true
+  hasTimestamps: true,
+
+  users: function () {
+    return this.belongsToMany(User)
+  }
 })
 
 export default Room
