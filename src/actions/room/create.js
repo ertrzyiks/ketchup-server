@@ -1,7 +1,8 @@
+import pick from 'lodash/pick'
 import ValidationError from '../../errors/validation_error'
 
 export default async (app, performer, data = {}) => {
-  const {User, Room} = app.models
+  const {Room} = app.models
   const {roomName} = data
 
   if (!roomName) {
@@ -10,14 +11,18 @@ export default async (app, performer, data = {}) => {
 
   const room = Room.forge({
     name: data.roomName,
-    owner_id: performer.id,
-    users: JSON.stringify([performer.id])
+    owner_id: performer.id
   })
 
   await room.save()
+  await room.users().attach(performer.id)
+  await room.fetch({withRelated: ['users']})
 
-  const rooms = performer.rooms || '[]'
-  await User.forge({id: performer.id}).save('rooms', rooms.concat([room.id]))
+  const roomJson = room.toJSON()
 
-  return room.toJSON()
+  const users = roomJson.users.map(user => {
+    return pick(user, ['id', 'hash', 'name', 'created_at', 'updated_at'])
+  })
+
+  return Object.assign({}, roomJson, {users})
 }
