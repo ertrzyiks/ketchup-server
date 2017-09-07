@@ -46,6 +46,7 @@ export default class KetchupServer extends Server {
       },
       process: (action, meta, creator) => {
         console.log('ACTION', action, meta, creator)
+        console.log('ACTION ID', meta.id)
         // var user = app.models.User.forge({id: creator.user}).fetch()
         // return app.perform('room.create', user, 'Room 1')
       }

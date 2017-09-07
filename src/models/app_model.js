@@ -42,6 +42,11 @@ const AppModel = bookshelf.Model.extend({
 
     return res
   }
+}, {
+  count: async function (column, options) {
+    const count = await bookshelf.Model.count.call(this, column, options)
+    return parseInt(count, 10)
+  }
 })
 
 export default AppModel
