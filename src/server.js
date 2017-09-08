@@ -22,7 +22,7 @@ export default class KetchupServer extends Server {
       }
 
       this.log.add(
-        { type: 'LIST_ROOMS', rooms: [{name: 'Room #1' + creator.user}, {name: 'Room #2' + creator.user}] },
+        { type: 'LIST_ROOMS', rooms: [{name: 'Room #1' + creator.user, creatorId: creator.user }, {name: 'Room #2' + creator.user, creatorId: creator.user}] },
         { nodeIds: [creator.nodeId], reasons: ['list'] }
       )
       return true
