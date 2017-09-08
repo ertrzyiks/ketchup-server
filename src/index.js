@@ -7,6 +7,8 @@ import getHttpServer from './http_server'
 const ketchapp = getKetchApp({actions, models})
 const httpServer = getHttpServer(ketchapp)
 
+const HOUR = 60 * 60 * 1000
+
 const listener = httpServer.listen(process.env.PORT || 3001, function () {
   const app = new KetchupServer(ketchapp, KetchupServer.loadOptions(process, {
     server: listener,
@@ -14,6 +16,11 @@ const listener = httpServer.listen(process.env.PORT || 3001, function () {
     supports: '1.x',
     root: __dirname
   }))
+
+  setInterval(async () => {
+    const affected = await ketchapp.perform('token.prune').then()
+    app.reporter.logger.info({affected}, 'Pruning refresh tokens')
+  }, HOUR)
 
   app.reporter.logger.info(listener.address(), 'Custom HTTP Server is listening')
   app.listen()
