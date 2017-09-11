@@ -28,17 +28,17 @@ test('remove all expired tokens', async t => {
 
   let affectedRows
 
-  affectedRows = await app.perform('token.prune')
+  affectedRows = await app.pruneTokens()
   t.is(affectedRows, 0)
   t.is(await Token.count(), 2)
 
   sandbox.clock.tick(2 * 1000)
-  affectedRows = await app.perform('token.prune')
+  affectedRows = await app.pruneTokens()
   t.is(affectedRows, 1)
   t.is(await Token.count(), 1)
 
   sandbox.clock.tick(2 * 1000)
-  affectedRows = await app.perform('token.prune')
+  affectedRows = await app.pruneTokens()
   t.is(affectedRows, 1)
   t.is(await Token.count(), 0)
 })

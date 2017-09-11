@@ -1,4 +1,4 @@
-export default async (app, performer, data = {}) => {
+export default async function verifyUser(app, performer, data = {}) {
   const {User} = app.models
   const {hash, accessToken} = data
 

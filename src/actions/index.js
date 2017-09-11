@@ -1,9 +1,5 @@
-import room from './room'
-import user from './user'
-import token from './token'
+import userActions from './user'
+import roomActions from './room'
+import tokenActions from './token'
 
-export default {
-  room,
-  user,
-  token
-}
+export default Object.assign({}, userActions, roomActions, tokenActions)

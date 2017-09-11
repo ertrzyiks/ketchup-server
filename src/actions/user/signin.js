@@ -1,6 +1,6 @@
 import AuthenticationError from '../../errors/authentication_error'
 
-export default async (app, performer, data = {}) => {
+export default async function signIn(app, performer, data = {}) {
   const {User, Token} = app.models
   const {hash, refreshToken} = data
 

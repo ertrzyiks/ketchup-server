@@ -1,5 +1,5 @@
 
-export default async (app, performer, data = {}) => {
+export default async function pruneTokens(app, performer, data = {}) {
   const {Token} = app.models
   const {knex} = app.db
 

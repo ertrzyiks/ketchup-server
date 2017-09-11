@@ -9,7 +9,7 @@ export default (ketchapp) => {
     const name = generateUsername('-')
 
     ketchapp
-      .perform('user.signup', {name})
+      .signUp({name})
       .then(({user, accessToken, refreshToken}) =>{
         res.send({
           user: {

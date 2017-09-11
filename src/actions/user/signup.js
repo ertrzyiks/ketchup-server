@@ -1,6 +1,6 @@
 import ValidationError from '../../errors/validation_error'
 
-export default async (app, performer, data = {}) => {
+export default async function signUp(app, performer, data = {}) {
   const {User, Token} = app.models
   const {name} = data
 
