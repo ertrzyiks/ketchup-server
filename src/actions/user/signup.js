@@ -12,7 +12,7 @@ export default async (app, performer, data = {}) => {
       tokens: [accessToken.toJSON()]
     }).save()
 
-    const refreshToken = await Token.forgeRefreshTokenFor(user.id)
+    const {rawValue, refreshToken} = await Token.forgeRefreshTokenFor(user.id)
     await refreshToken.save()
 
     await user.fetch()
@@ -20,7 +20,7 @@ export default async (app, performer, data = {}) => {
     return {
       user: user.toJSON(),
       accessToken: accessToken.toJSON(),
-      refreshToken: refreshToken.toJSON()
+      refreshToken: refreshToken.toOutputJSON(rawValue)
     }
   } catch (ex) {
     if (ex.message.match(/unique/i)) {

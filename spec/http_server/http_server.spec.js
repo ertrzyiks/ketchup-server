@@ -41,7 +41,7 @@ const doRequest = (method, relativeURL, body = {}) => {
 test('health check', async t => {
   const {body, statusCode} = await doRequest('GET', '/status')
 
-  t.is(statusCode, 200)
+  t.is(200, statusCode)
   t.snapshot(body)
 })
 
@@ -51,9 +51,9 @@ test('register a user', async t => {
   t.is(statusCode, 200)
   t.deepEqual(Object.keys(body), ['user', 'token'])
   t.deepEqual(Object.keys(body.user), ['name', 'updated_at', 'created_at', 'id'])
-  t.deepEqual(Object.keys(body.token), ['token_type', 'access_token', 'expires_in', 'refresh_token'])
+  t.deepEqual(Object.keys(body.token).sort(), ['token_type', 'access_token', 'expires_in', 'refresh_token'].sort())
 
-  t.is(typeof body.user.id, 'string')
+  t.is('string', typeof body.user.id)
 
   let user = Object.assign({}, body.user)
   delete user.name
@@ -65,14 +65,14 @@ test('login with refresh_token', async t => {
   const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'my-refresh-token'})
 
-  t.is(statusCode, 200)
-  t.deepEqual(Object.keys(body), ['token_type', 'access_token', 'expires_in', 'refresh_token'])
+  t.is(200, statusCode)
+  t.deepEqual(['token_type', 'expires_in', 'refresh_token', 'access_token'].sort(), Object.keys(body).sort())
 })
 
 test('login with incorrect refresh_token', async t => {
   const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'XXX'})
 
-  t.is(statusCode, 401)
+  t.is(401, statusCode)
   t.snapshot(body)
 })
