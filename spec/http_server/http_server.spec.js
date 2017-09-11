@@ -4,7 +4,7 @@ import getHttpServer from '../../src/http_server'
 import app from '../support/specapp'
 import {createUser, createSandbox, prepareDbFor} from '../support'
 
-const sandbox = createSandbox({useFakeTimers: true})
+createSandbox({useFakeTimers: true})
 
 prepareDbFor(app)
 
@@ -65,7 +65,7 @@ test('login with refresh_token', async t => {
   const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'my-refresh-token'})
 
-  t.is(200, statusCode)
+  t.is(statusCode, 200)
   t.deepEqual(['token_type', 'expires_in', 'refresh_token', 'access_token'].sort(), Object.keys(body).sort())
 })
 
@@ -73,6 +73,6 @@ test('login with incorrect refresh_token', async t => {
   const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'XXX'})
 
-  t.is(401, statusCode)
+  t.is(statusCode, 401)
   t.snapshot(body)
 })
