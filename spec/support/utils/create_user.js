@@ -2,7 +2,7 @@ export async function createUser(app, userData) {
   const {Token, User} = app.models
   const {name, accessToken, refreshToken} = Object.assign({name: 'MyUser'}, userData)
 
-  const result = await app.perform('user.signup', {name})
+  const result = await app.signUp({name})
   const {user} = result
   const userId = user.id
 

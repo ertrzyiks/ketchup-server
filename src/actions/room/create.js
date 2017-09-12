@@ -1,7 +1,7 @@
 import pick from 'lodash/pick'
 import ValidationError from '../../errors/validation_error'
 
-export default async (app, performer, data = {}) => {
+export default async function createRoom(app, performer, data = {}) {
   const {Room} = app.models
   const {roomName} = data
 

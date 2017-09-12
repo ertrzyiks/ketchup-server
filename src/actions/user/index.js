@@ -1,9 +1,9 @@
-import signup from './signup'
-import signin from './signin'
-import verify from './verify'
+import signUp from './signup'
+import signIn from './signin'
+import verifyUser from './verify'
 
 export default {
-  signup,
-  signin,
-  verify
+  signUp,
+  signIn,
+  verifyUser
 }

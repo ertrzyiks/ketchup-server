@@ -1,5 +1,5 @@
-import prune from './prune'
+import pruneTokens from './prune'
 
 export default {
-  prune
+  pruneTokens
 }

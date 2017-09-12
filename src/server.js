@@ -1,6 +1,5 @@
 import {Server} from 'logux-server'
 
-
 export default class KetchupServer extends Server {
   constructor (ketchapp, ...args) {
     super(...args)
@@ -10,13 +9,9 @@ export default class KetchupServer extends Server {
     this._setupTypes()
   }
 
-  perform(actionName, performer, data) {
-    return this.ketchapp.perform(actionName, performer, data)
-  }
-
   _setupAuth() {
     this.auth((id, accessToken) => {
-      return this.perform('user.verify', {hash: id, accessToken})
+      return this.ketchapp.verifyUser({hash: id, accessToken})
     })
   }
 

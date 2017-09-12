@@ -1,5 +1,5 @@
-import create from './create'
+import createRoom from './create'
 
 export default {
-  create
+  createRoom
 }

@@ -6,7 +6,7 @@ export default (ketchapp) => {
 
   oauth.post('/token', (req, res) => {
     ketchapp
-      .perform('user.signin', {
+      .signIn({
         hash: req.body.id,
         refreshToken: req.body.refresh_token,
       })
