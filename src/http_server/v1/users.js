@@ -1,15 +1,15 @@
 import express from 'express'
 import {generateUsername} from 'username-generator'
 import handleApiError from '../handle_error'
+import {signUp} from '../../actions/user'
 
-export default (ketchapp) => {
+export default () => {
   const users = express()
 
   users.post('/', (req, res) => {
     const name = generateUsername('-')
 
-    ketchapp
-      .signUp({name})
+    signUp({name})
       .then(({user, accessToken, refreshToken}) =>{
         res.send({
           user: {

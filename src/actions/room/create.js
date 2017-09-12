@@ -1,16 +1,14 @@
 import pick from 'lodash/pick'
 import ValidationError from '../../errors/validation_error'
+import {Room} from '../../models'
 
-export default async function createRoom(app, performer, data = {}) {
-  const {Room} = app.models
-  const {roomName} = data
-
+async function createRoom(performer, {roomName} = {}) {
   if (!roomName) {
     throw new ValidationError('Room name can not be empty')
   }
 
   const room = Room.forge({
-    name: data.roomName,
+    name: roomName,
     owner_id: performer.id
   })
 
@@ -26,3 +24,5 @@ export default async function createRoom(app, performer, data = {}) {
 
   return Object.assign({}, roomJson, {users})
 }
+
+export {createRoom}

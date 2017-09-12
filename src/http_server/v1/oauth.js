@@ -1,12 +1,12 @@
 import express from 'express'
 import handleApiError from '../handle_error'
+import {signIn} from '../../actions/user'
 
-export default (ketchapp) => {
+export default () => {
   const oauth = express()
 
   oauth.post('/token', (req, res) => {
-    ketchapp
-      .signIn({
+    signIn({
         hash: req.body.id,
         refreshToken: req.body.refresh_token,
       })

@@ -1,13 +1,13 @@
 import test from 'ava'
-import app from '../../support/specapp'
 import {createSandbox, prepareDbFor} from '../../support'
+import {signUp} from '../../app_actions'
 
 const sandbox = createSandbox({useFakeTimers: true})
-prepareDbFor(app)
+prepareDbFor()
 
 test('create a user', async t => {
   sandbox.clock.tick(1000)
-  const result = await app.signUp({name: 'MyUser'})
+  const result = await signUp({name: 'MyUser'})
   const {user} = result
 
   t.is(user.name, 'MyUser')
@@ -16,7 +16,7 @@ test('create a user', async t => {
 })
 
 test('create tokens', async t => {
-  const result = await app.signUp({name: 'MyUser'})
+  const result = await signUp({name: 'MyUser'})
   const {accessToken, refreshToken} = result
 
   t.truthy(accessToken)

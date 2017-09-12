@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import bcrypt from 'bcrypt'
-import User from './user'
-import AppModel from './app_model'
+import {User} from './user'
+import {AppModel} from './app_model'
 
 const BCRYPT_COST = (process.env.NODE_ENV === 'test') ? 1 : 15
 
@@ -16,7 +16,7 @@ const generateToken = (size = 48) => {
   })
 }
 
-const Token = AppModel.extend({
+export const Token = AppModel.extend({
   tableName: 'tokens',
   hasTimestamps: true,
 
@@ -65,5 +65,3 @@ const Token = AppModel.extend({
   encrypt: (rawToken) => bcrypt.hash(rawToken, BCRYPT_COST),
   compare: (rawToken, hash) => bcrypt.compare(rawToken, hash)
 })
-
-export default Token

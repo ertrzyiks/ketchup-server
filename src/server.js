@@ -1,17 +1,17 @@
 import {Server} from 'logux-server'
+import {verifyUser} from './actions/user'
 
 export default class KetchupServer extends Server {
-  constructor (ketchapp, ...args) {
+  constructor (...args) {
     super(...args)
 
-    this.ketchapp = ketchapp
     this._setupAuth()
     this._setupTypes()
   }
 
   _setupAuth() {
     this.auth((id, accessToken) => {
-      return this.ketchapp.verifyUser({hash: id, accessToken})
+      return verifyUser({hash: id, accessToken})
     })
   }
 

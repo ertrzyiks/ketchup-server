@@ -1,9 +1,7 @@
 import ValidationError from '../../errors/validation_error'
+import {User, Token} from '../../models'
 
-export default async function signUp(app, performer, data = {}) {
-  const {User, Token} = app.models
-  const {name} = data
-
+async function signUp({name} = {}) {
   try {
     const accessToken = await Token.forgeAccessToken()
 
@@ -33,3 +31,5 @@ export default async function signUp(app, performer, data = {}) {
     throw new Error('Could not register a user')
   }
 }
+
+export {signUp}

@@ -1,14 +1,15 @@
 import test from 'ava'
 import pick from 'lodash/pick'
-import app from '../../support/specapp'
 import {createUser, createSandbox, prepareDbFor} from '../../support'
+import {User} from '../../app_models'
+import {createRoom} from '../../app_actions'
 
 createSandbox({useFakeTimers: true})
-prepareDbFor(app)
+prepareDbFor()
 
 test('create a room', async t => {
-  const performer = await createUser(app, {name: 'John Doe'})
-  const room = await app.createRoom(performer, {roomName: '123'})
+  const performer = await createUser({name: 'John Doe'})
+  const room = await createRoom(performer, {roomName: '123'})
 
   t.is(room.name, '123')
   t.is(room.owner_id, performer.id)
@@ -17,10 +18,10 @@ test('create a room', async t => {
 })
 
 test('automatically join a created room', async t => {
-  const performer = await createUser(app, {name: 'John Doe'})
-  const room = await app.createRoom(performer, {roomName: '123'})
+  const performer = await createUser({name: 'John Doe'})
+  const room = await createRoom(performer, {roomName: '123'})
 
-  const user = await app.models.User.forge({id: performer.id}).fetch({withRelated: ['rooms']})
+  const user = await User.forge({id: performer.id}).fetch({withRelated: ['rooms']})
 
   t.deepEqual(room.users, [{
     id: performer.id,
@@ -39,9 +40,9 @@ test('automatically join a created room', async t => {
 })
 
 test('create a room without room name', async t => {
-  const performer = app.models.User.forge({id: 1})
+  const performer = User.forge({id: 1})
 
-  const action = app.createRoom(performer)
+  const action = createRoom(performer)
   const error = await t.throws(action, Error);
   t.is(error.message, 'Room name can not be empty')
 })

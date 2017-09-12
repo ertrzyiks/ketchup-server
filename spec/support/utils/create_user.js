@@ -1,8 +1,10 @@
-export async function createUser(app, userData) {
-  const {Token, User} = app.models
+import {Token, User} from '../../app_models'
+import {signUp} from '../../app_actions'
+
+export async function createUser(userData) {
   const {name, accessToken, refreshToken} = Object.assign({name: 'MyUser'}, userData)
 
-  const result = await app.signUp({name})
+  const result = await signUp({name})
   const {user} = result
   const userId = user.id
 

@@ -1,13 +1,14 @@
 import test from 'ava'
 import knexCleaner from 'knex-cleaner'
+import {knex} from '../../../src/db'
 
-export function prepareDbFor(app) {
+export function prepareDbFor() {
   test.beforeEach(async () => {
-    await app.db.knex.migrate.latest()
+    await knex.migrate.latest()
   })
 
   test.beforeEach(async () => {
-    await knexCleaner.clean(app.db.knex, {
+    await knexCleaner.clean(knex, {
       ignoreTables: ['knex_migrations', 'knex_migrations_lock']
     })
   })

@@ -1,7 +1,5 @@
 import test from 'ava'
-import app from '../support/specapp'
-
-const {User, Token} = app.models
+import {User, Token} from '../app_models'
 
 test(async t => {
   const token = await Token.forgeAccessToken()

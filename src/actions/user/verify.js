@@ -1,8 +1,6 @@
-export default async function verifyUser(app, performer, data = {}) {
-  const {User} = app.models
-  const {hash, accessToken} = data
+import {User} from '../../models'
 
-  // TODO: make a single query here
+async function verifyUser({hash, accessToken} = {}) {
   const user = await User.where({hash}).fetch()
 
   if (!user) {
@@ -18,3 +16,5 @@ export default async function verifyUser(app, performer, data = {}) {
   const expireAt = new Date(foundToken.expire_at).getTime()
   return expireAt >= Date.now()
 }
+
+export {verifyUser}
