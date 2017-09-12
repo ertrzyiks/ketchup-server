@@ -1,7 +1,7 @@
-import AppModel from './app_model'
-import Room from './room'
+import {AppModel} from './app_model'
+import {Room} from './room'
 
-const User = AppModel.extend({
+export const User = AppModel.extend({
   jsonFields: ['tokens'],
   tableName: 'users',
   hasTimestamps: true,
@@ -15,5 +15,3 @@ const User = AppModel.extend({
     return this.set('tokens', this.get('tokens').concat([tokenJson]))
   }
 })
-
-export default User

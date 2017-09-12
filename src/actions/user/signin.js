@@ -1,9 +1,7 @@
 import AuthenticationError from '../../errors/authentication_error'
+import {User, Token} from '../../models'
 
-export default async function signIn(app, performer, data = {}) {
-  const {User, Token} = app.models
-  const {hash, refreshToken} = data
-
+async function signIn({hash, refreshToken} = {}) {
   const user = await User.where({hash}).fetch()
   const userId = user ? user.id : -1
 
@@ -45,3 +43,6 @@ async function getMatchingToken(Token, refreshToken, tokens) {
 
   return null
 }
+
+
+export {signIn}

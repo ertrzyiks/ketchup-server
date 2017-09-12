@@ -1,11 +1,10 @@
 import test from 'ava'
 import SpecServer from '../support/specserver'
-import app from '../support/specapp'
 import {createUser, prepareDbFor, LoguxTestUtils} from '../support'
 
-const serverFactory = opts => new SpecServer(app, opts)
+const serverFactory = opts => new SpecServer(opts)
 
-prepareDbFor(app)
+prepareDbFor()
 
 let server
 
@@ -20,7 +19,7 @@ test(async t => {
   const client = LoguxTestUtils.createClient(reporter.app)
   await client.connection.connect()
 
-  const user = await createUser(app, {name: '10', accessToken: 'token'})
+  const user = await createUser({name: '10', accessToken: 'token'})
 
   await LoguxTestUtils.connect(client,  user.hash + ':uuid', 'xxx')
 
@@ -34,7 +33,7 @@ test(async t => {
   const client = LoguxTestUtils.createClient(reporter.app)
   await client.connection.connect()
 
-  const user = await createUser(app, {name: '10', accessToken: 'token'})
+  const user = await createUser({name: '10', accessToken: 'token'})
 
   await LoguxTestUtils.connect(client, user.hash + ':uuid', 'token')
 

@@ -1,5 +1,1 @@
-import createRoom from './create'
-
-export default {
-  createRoom
-}
+export * from './create'

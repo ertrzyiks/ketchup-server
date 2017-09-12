@@ -1,18 +1,17 @@
 import test from 'ava'
 import request from 'request-promise-native'
 import getHttpServer from '../../src/http_server'
-import app from '../support/specapp'
 import {createUser, createSandbox, prepareDbFor} from '../support'
 
 createSandbox({useFakeTimers: true})
 
-prepareDbFor(app)
+prepareDbFor()
 
 let listener
 
 test.beforeEach(async () => {
   await new Promise((resolve, reject) => {
-    listener = getHttpServer(app).listen(0, (err) => {
+    listener = getHttpServer().listen(0, (err) => {
       if (err) {
         return reject(err)
       }
@@ -62,7 +61,7 @@ test('register a user', async t => {
 })
 
 test('login with refresh_token', async t => {
-  const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
+  const user = await createUser({name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'my-refresh-token'})
 
   t.is(statusCode, 200)
@@ -70,7 +69,7 @@ test('login with refresh_token', async t => {
 })
 
 test('login with incorrect refresh_token', async t => {
-  const user = await createUser(app, {name: '10', refreshToken: 'my-refresh-token'})
+  const user = await createUser({name: '10', refreshToken: 'my-refresh-token'})
   const {body, statusCode} = await doRequest('POST', '/v1/oauth/token', {id: user.hash, refresh_token: 'XXX'})
 
   t.is(statusCode, 401)

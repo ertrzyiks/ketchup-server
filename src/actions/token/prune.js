@@ -1,7 +1,8 @@
+import {Token} from '../../models'
+import {knex} from '../../db'
 
-export default async function pruneTokens(app, performer, data = {}) {
-  const {Token} = app.models
-  const {knex} = app.db
-
+async function pruneTokens() {
   return knex(Token.prototype.tableName).where('expire_at', '<', new Date()).del()
 }
+
+export {pruneTokens}

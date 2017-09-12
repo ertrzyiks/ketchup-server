@@ -1,6 +1,6 @@
 import {bookshelf} from '../db'
 
-const AppModel = bookshelf.Model.extend({
+export const AppModel = bookshelf.Model.extend({
   jsonFields: [],
 
   serialize: function (options) {
@@ -48,5 +48,3 @@ const AppModel = bookshelf.Model.extend({
     return parseInt(count, 10)
   }
 })
-
-export default AppModel
