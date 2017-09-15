@@ -14,7 +14,7 @@ async function createRoom(performer, {roomName} = {}) {
 
   await room.save()
   await room.users().attach(performer.id)
-  await room.fetch({withRelated: ['users']})
+  await room.fetch({withRelated: ['users', 'owner']})
 
   const roomJson = room.toJSON()
 
@@ -22,7 +22,9 @@ async function createRoom(performer, {roomName} = {}) {
     return pick(user, ['id', 'hash', 'name', 'created_at', 'updated_at'])
   })
 
-  return Object.assign({}, roomJson, {users})
+  const ownerId = roomJson.owner.hash
+
+  return Object.assign({}, roomJson, {users}, { owner_id: ownerId })
 }
 
 export {createRoom}
