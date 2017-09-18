@@ -7,5 +7,9 @@ export const Room = AppModel.extend({
 
   users: function () {
     return this.belongsToMany(User)
+  },
+
+  owner: function() {
+    return this.belongsTo(User, 'owner_id')
   }
 })

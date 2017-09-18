@@ -12,7 +12,7 @@ test('create a room', async t => {
   const room = await createRoom(performer, {roomName: '123'})
 
   t.is(room.name, '123')
-  t.is(room.owner_id, performer.id)
+  t.is(room.owner_id, performer.hash)
   t.is(room.created_at.getTime(), new Date().getTime())
   t.is(room.updated_at.getTime(), new Date().getTime())
 })
