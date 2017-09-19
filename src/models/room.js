@@ -1,6 +1,10 @@
 import {AppModel} from './app_model'
 import {User} from './user'
 
+/**
+ * @class Room
+ * @memberof module:Models
+ */
 export const Room = AppModel.extend({
   tableName: 'rooms',
   hasTimestamps: true,

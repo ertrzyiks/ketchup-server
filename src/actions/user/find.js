@@ -1,6 +1,11 @@
-import pick from 'lodash/pick'
-import { User } from '../../models'
+import {User} from '../../models'
+import {getJsonUser} from '../../json_models'
 
+/**
+ * @param {String} hash - User hash
+ * @returns {module:JsonModels.User}
+ * @memberof module:Actions/User
+ */
 async function findUserByHash(hash) {
   const user = await User.where({ hash }).fetch()
   
@@ -8,7 +13,7 @@ async function findUserByHash(hash) {
     return null
   }
   
-  return pick(user.toJSON(), ['id', 'hash', 'name', 'created_at', 'updated_at'])
+  return getJsonUser(user.toJSON())
 }
 
 export { findUserByHash }

@@ -1,5 +1,9 @@
 import {bookshelf} from '../db'
 
+/**
+ * @class AppModel
+ * @memberof module:Models
+ */
 export const AppModel = bookshelf.Model.extend({
   jsonFields: [],
 
