@@ -14,7 +14,8 @@
     "test:watch": "npm test -- --watch",
     "test:up": "npm test -- --update-snapshots",
     "lint": "eslint src",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "jsdoc -c jsdoc.json",
+    "update-docs": "gulp update-docs"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,8 @@
     "ava": "^0.21.0",
     "docdash": "^0.4.0",
     "eslint": "^4.5.0",
+    "gulp": "^3.9.1",
+    "gulp-gh-pages": "^0.5.4",
     "jsdoc": "github:jsdoc3/jsdoc",
     "jsdoc-http-plugin": "github:ertrzyiks/jsdoc-http-plugin#ertrzyiks-patch-1",
     "knex-cleaner": "^1.1.3",
