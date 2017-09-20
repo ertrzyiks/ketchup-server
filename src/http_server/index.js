@@ -1,3 +1,6 @@
+/**
+ * @module HTTP API
+ */
 import express from 'express'
 import cors from 'cors'
 import v1 from './v1'

@@ -1,6 +1,14 @@
 import AuthenticationError from '../../errors/authentication_error'
 import {User, Token} from '../../models'
+import {getJsonSession} from '../../json_models'
 
+/**
+ * @param {Object} params
+ * @param {String} params.hash
+ * @param {String} params.refreshToken
+ * @returns {module:JsonModels.Session}
+ * @memberof module:Actions/User
+ */
 async function signIn({hash, refreshToken} = {}) {
   const user = await User.where({hash}).fetch()
   const userId = user ? user.id : -1
@@ -25,11 +33,11 @@ async function signIn({hash, refreshToken} = {}) {
   const {rawValue, refreshToken: newRefreshToken} = await Token.forgeRefreshTokenFor(user.id)
   await newRefreshToken.save()
 
-  return {
-    user: user.toJSON(),
-    accessToken: newAccessToken.toJSON(),
-    refreshToken: newRefreshToken.toOutputJSON(rawValue)
-  }
+  return getJsonSession(
+    user.toJSON(),
+    newAccessToken.toJSON(),
+    newRefreshToken.toOutputJSON(rawValue)
+  )
 }
 
 async function getMatchingToken(Token, refreshToken, tokens) {

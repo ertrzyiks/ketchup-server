@@ -7,6 +7,12 @@ import { listUserRooms } from './actions/room/list'
 import { deleteRoom } from './actions/room/delete'
 
 export default class KetchupServer extends Server {
+  /**
+   * This is a server created with [logux-server](https://github.com/logux/logux-server)
+   *
+   * @class KetchupServer
+   * @arg {String} a
+   */
   constructor (...args) {
     super(...args)
 

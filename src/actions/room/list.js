@@ -1,5 +1,10 @@
 import { Room } from '../../models'
 
+/**
+ * @param performer
+ * @returns {module:JsonModels.Room[]}
+ * @memberof module:Actions/Room
+ */
 async function listUserRooms(performer) {
   const rooms = await Room.forge()
   .fetchAll({withRelated: ['users', {

@@ -5,6 +5,17 @@ import {signIn} from '../../actions/user'
 export default () => {
   const oauth = express()
 
+  /**
+   * OAuth endpoint. Allows to exchange refresh token on new tokens
+   * pair.
+   *
+   * @memberof module:HTTP API
+   * @name POST /v1/oauth/token
+   * @path {POST} /v1/oauth/token
+   *
+   * @body {String} [id] Id of user
+   * @body {String} [refresh_token] Can be retrieved from sign up
+   */
   oauth.post('/token', (req, res) => {
     signIn({
         hash: req.body.id,

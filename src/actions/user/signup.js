@@ -1,6 +1,12 @@
 import ValidationError from '../../errors/validation_error'
 import {User, Token} from '../../models'
 
+/**
+ * @param {Object} params
+ * @param {String} params.name
+ * @returns {module:JsonModels.Session}
+ * @memberof module:Actions/User
+ */
 async function signUp({name} = {}) {
   try {
     const accessToken = await Token.forgeAccessToken()

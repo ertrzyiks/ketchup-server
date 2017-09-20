@@ -1,5 +1,11 @@
 import { Room } from '../../models'
 
+/**
+ * @param performer
+ * @param {Number} roomId
+ * @returns {Number} Given room id
+ * @memberof module:Actions/Room
+ */
 async function deleteRoom(performer, roomId) {
   const room = await Room.forge({ id: roomId })
     .fetch()

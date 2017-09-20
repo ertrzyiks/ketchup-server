@@ -24,9 +24,8 @@ test('automatically join a created room', async t => {
   const user = await User.forge({id: performer.id}).fetch({withRelated: ['rooms']})
 
   t.deepEqual(room.users, [{
-    id: performer.id,
     name: 'John Doe',
-    hash: performer.hash,
+    id: performer.hash,
     created_at: performer.created_at,
     updated_at: performer.updated_at
   }])

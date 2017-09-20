@@ -6,6 +6,13 @@ import {signUp} from '../../actions/user'
 export default () => {
   const users = express()
 
+  /**
+   * Register new user.
+   *
+   * @memberof module:HTTP API
+   * @name POST /v1/users
+   * @path {POST} /v1/users
+   */
   users.post('/', (req, res) => {
     const name = generateUsername('-')
 
