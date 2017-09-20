@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>server.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="KetchupServer.html">KetchupServer</a></li><li><a href="module-Models.AppModel.html">AppModel</a></li><li><a href="module-Models.Room.html">Room</a></li><li><a href="module-Models.Token.html">Token</a><ul class='methods'><li data-type='method'><a href="module-Models.Token.html#.compare">compare</a></li><li data-type='method'><a href="module-Models.Token.html#.encrypt">encrypt</a></li><li data-type='method'><a href="module-Models.Token.html#.forgeAccessToken">forgeAccessToken</a></li><li data-type='method'><a href="module-Models.Token.html#.forgeRefreshTokenFor">forgeRefreshTokenFor</a></li><li data-type='method'><a href="module-Models.Token.html#toOutputJSON">toOutputJSON</a></li></ul></li><li><a href="module-Models.User.html">User</a><ul class='methods'><li data-type='method'><a href="module-Models.User.html#addToken">addToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-Actions_Room.html">Actions/Room</a><ul class='methods'><li data-type='method'><a href="module-Actions_Room.html#.createRoom">createRoom</a></li><li data-type='method'><a href="module-Actions_Room.html#.deleteRoom">deleteRoom</a></li><li data-type='method'><a href="module-Actions_Room.html#.listUserRooms">listUserRooms</a></li></ul></li><li><a href="module-Actions_Token.html">Actions/Token</a><ul class='methods'><li data-type='method'><a href="module-Actions_Token.html#.pruneTokens">pruneTokens</a></li></ul></li><li><a href="module-Actions_User.html">Actions/User</a><ul class='methods'><li data-type='method'><a href="module-Actions_User.html#.findUserByHash">findUserByHash</a></li><li data-type='method'><a href="module-Actions_User.html#.signIn">signIn</a></li><li data-type='method'><a href="module-Actions_User.html#.signUp">signUp</a></li><li data-type='method'><a href="module-Actions_User.html#.verifyUser">verifyUser</a></li></ul></li><li><a href="module-HTTP%2520API.html">HTTP API</a></li><li><a href="module-JsonModels.html">JsonModels</a></li><li><a href="module-Models.html">Models</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">server.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {Server} from 'logux-server'
+import {verifyUser} from './actions/user'
+import { Room } from './models'
+import { createRoom } from './actions/room/create'
+import { findUserByHash } from './actions/user/find'
+import { listUserRooms } from './actions/room/list'
+import { deleteRoom } from './actions/room/delete'
+
+export default class KetchupServer extends Server {
+  /**
+   * This is a server created with [logux-server](https://github.com/logux/logux-server)
+   *
+   * @class KetchupServer
+   * @arg {String} a
+   */
+  constructor (...args) {
+    super(...args)
+
+    this._setupAuth()
+    this._setupTypes()
+  }
+
+  _setupAuth() {
+    this.auth((id, accessToken) => {
+      return verifyUser({hash: id, accessToken})
+    })
+  }
+
+  _setupTypes() {
+    this.subscription('users/:id', async (params, action, meta, creator) => {
+      console.log('init request', params.id)
+
+      if (params.id !== creator.user) {
+        return false
+      }
+
+      // TODO: fetch also rooms to which the user is invited
+      const user = await findUserByHash(creator.user)
+      if (!user) {
+        console.log('User not found')
+        return
+      }
+
+      const rooms = await listUserRooms(user)
+
+      return this.log.add({ type: 'LIST_ROOMS', rooms }, { sync: true, nodeIds: [creator.nodeId], reasons: ['list'] })
+
+    })
+
+    // TODO: this is a noop for any events published but not handled by the server (it has to know about all the events)
+    this.type('LIST_ROOMS', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: (action, meta, creator) => {}
+    })
+
+    this.type('CREATED_ROOM_DETAILS', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: (action, meta, creator) => {}
+    })
+
+    this.type('CREATE_ROOM', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: async (action, meta, creator) => {
+        console.log('CREATING room')
+        const randomName = `temp-${Math.random() * 100}`
+
+        const user = await findUserByHash(creator.user)
+        if (!user) {
+          console.log('User not found')
+          return
+        }
+
+        const room = await createRoom(user, { roomName: randomName })
+        console.log('room', room)
+
+        return this.log.add({ type: 'CREATED_ROOM_DETAILS', room }, { sync: true, nodeIds: [creator.nodeId], reasons: ['createRoomResponse'] })
+      }
+    })
+
+    // noop by design
+    this.type('REMOVE_ROOM_DETAILS', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: (action, meta, creator) => {
+      }
+    })
+    
+    this.type('DELETE_ROOM', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: async (action, meta, creator) => {
+        console.log('delete room action', action)
+
+        const user = await findUserByHash(creator.user)
+        if (!user) {
+          console.log('User not found')
+          return
+        }
+        
+        await deleteRoom(user, action.roomId)  
+          
+        return this.log.add({ type: 'REMOVE_ROOM_DETAILS', roomId: action.roomId }, { sync: true, nodeIds: [creator.nodeId], reasons: ['removeRoomDetails'] })
+      }
+    })
+
+    this.type('REMOVE_FROM_ROOM', {
+      access: (action, meta) => {
+        return Promise.resolve(true)
+      },
+      process: (action, meta, creator) => {
+        console.log('server - remove from room')
+      }
+    })
+
+    
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.0-dev</a> on Wed Sep 20 2017 20:54:53 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
