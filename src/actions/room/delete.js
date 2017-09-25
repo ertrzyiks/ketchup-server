@@ -2,8 +2,8 @@ import { Room } from '../../models'
 
 /**
  * @param performer
- * @param {Number} roomId
- * @returns {Number} Given room id
+ * @param {number} roomId
+ * @returns {number} Given room id
  * @memberof module:Actions/Room
  */
 async function deleteRoom(performer, roomId) {

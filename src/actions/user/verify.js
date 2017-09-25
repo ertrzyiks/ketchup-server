@@ -1,10 +1,10 @@
 import {User} from '../../models'
 
 /**
- * @param {Object} params
- * @param {String} params.hash
- * @param {String} params.accessToken
- * @returns {Boolean}
+ * @param {object} params
+ * @param {string} params.hash
+ * @param {string} params.accessToken
+ * @returns {boolean}
  * @memberof module:Actions/User
  */
 async function verifyUser({hash, accessToken} = {}) {

@@ -2,7 +2,7 @@ import {User} from '../../models'
 import {getJsonUser} from '../../json_models'
 
 /**
- * @param {String} hash - User hash
+ * @param {string} hash - User hash
  * @returns {module:JsonModels.User}
  * @memberof module:Actions/User
  */

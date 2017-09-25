@@ -2,8 +2,8 @@ import ValidationError from '../../errors/validation_error'
 import {User, Token} from '../../models'
 
 /**
- * @param {Object} params
- * @param {String} params.name
+ * @param {object} params
+ * @param {string} params.name
  * @returns {module:JsonModels.Session}
  * @memberof module:Actions/User
  */
