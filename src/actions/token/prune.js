@@ -2,7 +2,7 @@ import {Token} from '../../models'
 import {knex} from '../../db'
 
 /**
- * @returns {Number} Number of removed tokens
+ * @returns {number} Number of removed tokens
  * @memberof module:Actions/Token
  */
 async function pruneTokens() {

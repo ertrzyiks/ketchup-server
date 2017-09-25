@@ -3,9 +3,9 @@ import {User, Token} from '../../models'
 import {getJsonSession} from '../../json_models'
 
 /**
- * @param {Object} params
- * @param {String} params.hash
- * @param {String} params.refreshToken
+ * @param {object} params
+ * @param {string} params.hash
+ * @param {string} params.refreshToken
  * @returns {module:JsonModels.Session}
  * @memberof module:Actions/User
  */

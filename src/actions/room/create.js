@@ -4,8 +4,8 @@ import {getJsonRoom} from '../../json_models'
 
 /**
  * @param performer
- * @param {Object} params
- * @param {String} params.roomName - Name of room
+ * @param {object} params
+ * @param {string} params.roomName - Name of room
  * @returns {module:JsonModels.Room}
  * @memberof module:Actions/Room
  */
