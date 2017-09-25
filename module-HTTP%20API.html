@@ -126,31 +126,68 @@
                             <td class="name last">/v1/oauth/token</td>
                             </tr>
                             </table>
-                            <p>OAuth endpoint. Allows to exchange refresh token on new tokens
-pair.</p>
+                            <p>OAuth endpoint. Allows to exchange refresh token on a new pair
+of tokens.</p>
                             <h5>Body Parameters:</h5>
           <table class="params">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Type</th>
-                <th>Attributes</th>
+                
                 
                 <th class="last">Description</th>
               </tr>
             </thead>
             <tr>
             <td class="name">id</td>
-            <td class="type">String</td>
-            <td class="attributes">optional</td>
+            <td class="type">string</td>
+            
             
             <td class="description last">Id of user</td>
           </tr><tr>
             <td class="name">refresh_token</td>
-            <td class="type">String</td>
-            <td class="attributes">optional</td>
+            <td class="type">string</td>
+            
             
             <td class="description last">Can be retrieved from sign up</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">token_type</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Always 'bearer'</td>
+          </tr><tr>
+            <td class="name">access_token</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">OAuth access token, used to authenticate</td>
+          </tr><tr>
+            <td class="name">expires_in</td>
+            <td class="type">number</td>
+            
+            
+            <td class="description last">Time to access_token expire, in seconds</td>
+          </tr><tr>
+            <td class="name">refresh_token</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">OAuth refresh token, used to renew access token</td>
           </tr>
           </table>
 </div>
@@ -175,7 +212,7 @@ pair.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="http_server_v1_users.js.html">http_server/v1/users.js</a>, <a href="http_server_v1_users.js.html#line9">line 9</a>
+        <a href="http_server_v1_users.js.html">http_server/v1/users.js</a>, <a href="http_server_v1_users.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -224,6 +261,79 @@ pair.</p>
                             </tr>
                             </table>
                             <p>Register new user.</p>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">user</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">user.id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">User identifier</td>
+          </tr><tr>
+            <td class="name">user.name</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">User name</td>
+          </tr><tr>
+            <td class="name">user.updated_at</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Date string of the last update</td>
+          </tr><tr>
+            <td class="name">user.created_at</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Date string of the registration</td>
+          </tr><tr>
+            <td class="name">token</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">token.token_type</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Always 'bearer'</td>
+          </tr><tr>
+            <td class="name">token.access_token</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">OAuth access token, used to authenticate</td>
+          </tr><tr>
+            <td class="name">token.expires_in</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Time to access_token expire, in seconds</td>
+          </tr><tr>
+            <td class="name">token.refresh_token</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">OAuth refresh token, used to renew access token</td>
+          </tr>
+          </table>
 </div>
 
 
@@ -253,7 +363,7 @@ pair.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.0-dev</a> on Mon Sep 25 2017 20:11:50 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.0-dev</a> on Mon Sep 25 2017 20:12:54 GMT+0000 (UTC) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
