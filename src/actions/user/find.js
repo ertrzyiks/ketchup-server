@@ -3,7 +3,7 @@ import {getJsonUser} from '../../json_models'
 
 /**
  * @param {string} hash - User hash
- * @returns {module:JsonModels.User}
+ * @returns {Object}
  * @memberof module:Actions/User
  */
 async function findUserByHash(hash) {
@@ -13,7 +13,7 @@ async function findUserByHash(hash) {
     return null
   }
   
-  return getJsonUser(user.toJSON())
+  return user.toJSON()
 }
 
 export { findUserByHash }
