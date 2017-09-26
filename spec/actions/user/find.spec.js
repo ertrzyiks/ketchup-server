@@ -10,8 +10,8 @@ test('find user by hash', async t => {
   const foundUser = await findUserByHash(user.hash)
 
   t.is(foundUser.name, user.name)
-  t.is(foundUser.id, user.hash)
-  t.is(foundUser.tokens, undefined)
+  t.is(foundUser.id, user.id)
+  t.is(foundUser.hash, user.hash)
 })
 
 test('find user returns null if not found', async t => {

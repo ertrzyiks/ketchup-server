@@ -27,15 +27,15 @@ export default class KetchupServer extends Server {
   }
 
   _setupTypes() {
-    this.subscription('users/:id', async (params, action, meta, creator) => {
+    this.channel('users/:id', async (params, action, meta, creator) => {
       console.log('init request', params.id)
 
-      if (params.id !== creator.user) {
+      if (params.id !== creator.userId) {
         return false
       }
 
       // TODO: fetch also rooms to which the user is invited
-      const user = await findUserByHash(creator.user)
+      const user = await findUserByHash(creator.userId)
       if (!user) {
         console.log('User not found')
         return
@@ -67,10 +67,9 @@ export default class KetchupServer extends Server {
         return Promise.resolve(true)
       },
       process: async (action, meta, creator) => {
-        console.log('CREATING room')
         const randomName = `temp-${Math.random() * 100}`
 
-        const user = await findUserByHash(creator.user)
+        const user = await findUserByHash(creator.userId)
         if (!user) {
           console.log('User not found')
           return
@@ -119,7 +118,5 @@ export default class KetchupServer extends Server {
         console.log('server - remove from room')
       }
     })
-
-    
   }
 }
