@@ -17,8 +17,12 @@ async function listUserRooms(performer) {
   console.log(rooms.toJSON())
 
   const mappedRooms = rooms.toJSON().map(r => {
-    const ownerHash = r.users.find(u => u.id === r.owner_id).hash
-    return Object.assign({}, r, { owner_id: ownerHash })
+    let ownerInfo = {}
+    const owner = r.users.find(u => u.id === r.owner_id)
+    if (owner) {
+      ownerInfo = { owner_id: owner.hash}
+    }  
+    return Object.assign({}, r, ownerInfo)
   })
 
   return mappedRooms

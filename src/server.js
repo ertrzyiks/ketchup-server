@@ -62,18 +62,20 @@ export default class KetchupServer extends Server {
         return Promise.resolve(true)
       },
       process: async (action, meta, creator) => {
-        const randomName = `temp-${Math.random() * 100}`
-
+        console.log('create room action', action)
+        console.log('create room meta', meta)
+        console.log('create room creator', creator)
+        
         const user = await findUserByHash(creator.userId)
         if (!user) {
           console.log('User not found')
           return
         }
 
-        const room = await createRoom(user, { roomName: randomName })
-        console.log('room', room)
+        const room = await createRoom(user, { roomName: action.room.name })
+        console.log('created room', room)
 
-        return this.log.add({ type: 'CREATED_ROOM_DETAILS', room }, { sync: true, nodeIds: [creator.nodeId], reasons: ['createRoomResponse'] })
+        return this.log.add({ type: 'CREATED_ROOM_DETAILS', room, originalActionId: meta.id }, { sync: true, nodeIds: [creator.nodeId], reasons: ['createRoomResponse'] })
       }
     })
 
@@ -92,7 +94,7 @@ export default class KetchupServer extends Server {
       },
       process: async (action, meta, creator) => {
         console.log('delete room action', action, creator)
-
+        console.log('creator.user', creator.user)
         const user = await findUserByHash(creator.userId)
         if (!user) {
           console.log('User not found')
