@@ -39,7 +39,7 @@
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
     "logux-core": "github:logux/logux-core#e505b1668841f13d1cd7ddb16df6fb49bdaca094",
-    "logux-server": "github:logux/logux-server#2ff1dad142aaf5b4659b70dd519a1ae208dc25da",
+    "logux-server": "github:logux/logux-server#358edb6b01edd9c606436013d2c52895d221cc46",
     "logux-sync": "github:logux/logux-sync#6be24254d6b8074370410a5007df2bcf98ada360",
     "pg": "^7.1.2",
     "request": "^2.81.0",
