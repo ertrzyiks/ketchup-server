@@ -20,6 +20,13 @@ export default class KetchupServer extends Server {
     this._setupTypes()
   }
 
+  type (name, options) {
+    super.type(name, Object.assign({
+      access: (action, meta) => Promise.resolve(true),
+      process: (action, meta, creator) => {}
+    }, options))
+  }
+
   _setupAuth() {
     this.auth((id, accessToken) => {
       return verifyUser({hash: id, accessToken})
@@ -47,20 +54,8 @@ export default class KetchupServer extends Server {
 
     })
 
-    // TODO: this is a noop for any events published but not handled by the server (it has to know about all the events)
-    this.type('LIST_ROOMS', {
-      access: (action, meta) => {
-        return Promise.resolve(true)
-      },
-      process: (action, meta, creator) => {}
-    })
-
-    this.type('CREATED_ROOM_DETAILS', {
-      access: (action, meta) => {
-        return Promise.resolve(true)
-      },
-      process: (action, meta, creator) => {}
-    })
+    this.type('LIST_ROOMS')
+    this.type('CREATED_ROOM_DETAILS')
 
     this.type('CREATE_ROOM', {
       access: (action, meta) => {
@@ -96,9 +91,9 @@ export default class KetchupServer extends Server {
         return Promise.resolve(true)
       },
       process: async (action, meta, creator) => {
-        console.log('delete room action', action)
+        console.log('delete room action', action, creator)
 
-        const user = await findUserByHash(creator.user)
+        const user = await findUserByHash(creator.userId)
         if (!user) {
           console.log('User not found')
           return
